@@ -18,6 +18,6 @@ namespace DataLawyer.Servico
 
         public Processo Grave(Processo processo) => _persistencia.Grave(processo);
 
-        public void Exclua(Processo processo) => _persistencia.Exclua(processo);
+        public void Exclua(int id) => _persistencia.Exclua(id);
     }
 }

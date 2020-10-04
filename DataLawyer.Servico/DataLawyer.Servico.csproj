@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataLawyer.Persistencia\DataLawyer.Persistencia.csproj" />
+    <ProjectReference Include="..\DataLawyer.Rastreamento\DataLawyer.Rastreamento.csproj" />
   </ItemGroup>
 
 </Project>

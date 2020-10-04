@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using DataLawyer.Dominio;
 
 namespace DataLawyer.Persistencia
@@ -10,53 +12,60 @@ namespace DataLawyer.Persistencia
         public static PersistenciaDeMovimentacaoDeProcesso Instancia => _instancia ?? new PersistenciaDeMovimentacaoDeProcesso();
         private PersistenciaDeMovimentacaoDeProcesso() { }
 
-        public IEnumerable<MovimentacaoDeProcesso> Obtenha(Processo processo)
+        public IEnumerable<MovimentacaoDeProcesso> Obtenha(int processoId)
         {
-            var movimentacoes = new List<MovimentacaoDeProcesso>();
+            using var contexto = new Contexto();
+            var processo = PersistenciaDeProcesso.Instancia.Obtenha(processoId);
 
-            using (var contexto = new Contexto())
-            {                
-                var lista = contexto.MovimentacaoDeProcesso.Where(m => m.Processo.Equals(processo));
-                movimentacoes.AddRange(lista);
-            }            
+            var movimentacoes = contexto.MovimentacaoDeProcesso.Include(m => m.Processo).AsNoTracking()
+                                                               .Where(m => m.Processo.Equals(processo))
+                                                               .ToList().OrderByDescending(p => p.DataHora);
 
-            return movimentacoes.OrderByDescending(p => p.Data).ThenByDescending(m => m.Hora);
+            return movimentacoes;
         }
 
         public void Grave(MovimentacaoDeProcesso movimentacao)
         {
-            if (movimentacao is null) return;
+            if (movimentacao is null) throw new Exception("Movimentação não informada.");
+            movimentacao.EhValido();
 
-            using (var contexto = new Contexto())
-            {                
-                var movimentacaoExistente = contexto.MovimentacaoDeProcesso.FirstOrDefault(m => m.Equals(movimentacao));
+            using var contexto = new Contexto();
 
-                if (movimentacaoExistente is null)
-                {
-                    movimentacao.Processo = contexto.Processo.Find(movimentacao.Processo.Id);
-                    contexto.Add(movimentacao);
-                    contexto.SaveChanges();
-                    return;
-                }
+            var movimentacaoExistente = contexto.MovimentacaoDeProcesso.Find(movimentacao.Id);
+            if (movimentacaoExistente is null)
+            {
+                movimentacao.Processo = contexto.Processo.Find(movimentacao.Processo.Id);
+                if (movimentacao.Processo is null) throw new Exception("Processo inexistente.");
 
-                movimentacaoExistente.Data = movimentacao.Data;
-                movimentacaoExistente.Hora = movimentacao.Hora;
-                movimentacaoExistente.Descricao = movimentacao.Descricao;                
-                contexto.Update(movimentacaoExistente);
+                contexto.MovimentacaoDeProcesso.Add(movimentacao);
                 contexto.SaveChanges();
+                return;
             }
+
+            movimentacaoExistente.DataHora = movimentacao.DataHora;
+            movimentacaoExistente.Descricao = movimentacao.Descricao;
+
+            contexto.MovimentacaoDeProcesso.Update(movimentacaoExistente);
+            contexto.SaveChanges();
         }
 
-        public void Exclua(MovimentacaoDeProcesso movimentacao)
+        public void Exclua(int id)
         {
-            if (movimentacao is null) return;
+            using var contexto = new Contexto();
+            var movimentacao = contexto.MovimentacaoDeProcesso.Find(id);
+            if (movimentacao is null) throw new Exception("Movimentação inexistente.");
 
-            using (var contexto = new Contexto())
-            {
-                var movimentacaoExistente = contexto.MovimentacaoDeProcesso.Find(movimentacao.Id);
-                contexto.Remove(movimentacaoExistente);
-                contexto.SaveChanges();
-            }
+            contexto.MovimentacaoDeProcesso.Remove(movimentacao);
+            contexto.SaveChanges();
+        }
+
+        public void ExcluaTodas(int processoId)
+        {
+            using var contexto = new Contexto();
+
+            var movimentacoes = contexto.MovimentacaoDeProcesso.Where(m => m.Processo.Id == processoId).ToList();
+            contexto.MovimentacaoDeProcesso.RemoveRange(movimentacoes);
+            contexto.SaveChanges();
         }
     }
 }

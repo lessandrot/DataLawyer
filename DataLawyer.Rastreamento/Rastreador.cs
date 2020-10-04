@@ -1,35 +1,56 @@
 ﻿using System;
-using HtmlAgilityPack;
-using DataLawyer.Dominio;
-using DataLawyer.Servico;
-using System.Collections.Generic;
 using System.Web;
+using System.Linq;
+using HtmlAgilityPack;
+using System.Collections.Generic;
+using DataLawyer.Dominio;
 
 namespace DataLawyer.Rastreamento
 {
     public abstract class Rastreador
     {
-        protected HtmlWeb _htmlWeb = new HtmlWeb();        
+        private HtmlWeb _htmlWeb = new HtmlWeb();
 
-        public void Rastreie(string numeroDoProcesso, GrauDeProcesso grau)
+        public Rastreador(GrauDeProcesso grau) => Grau = grau;
+
+        public GrauDeProcesso Grau { get; set; }
+
+        public ResultadoDeRastreio Rastreie(string numeroDoProcesso)
         {
+            var resultado = new ResultadoDeRastreio();
+            var processo = $"O processo '{numeroDoProcesso}' de { Grau.ToDescription().ToLower()}";
+
             try
             {
-                var uri = Uri(numeroDoProcesso, grau);
+                var uri = Uri(numeroDoProcesso);
                 var html = _htmlWeb.Load(uri);
 
-                var processo = Obtenha(numeroDoProcesso, grau,html);                
-                processo = ServicoDeProcesso.Instancia.Grave(processo);
+                resultado.Processo = Obtenha(numeroDoProcesso, html);
 
-                var movimentacoes = ObtenhaMovimentacoes(processo, html);
-                foreach(var movimentacao  in movimentacoes)
+                if (!resultado.Processo?.EhValido(false) ?? true)
                 {
-                    ServicoDeMovimentacaoDeProcesso.Instancia.Grave(movimentacao);
-                }                
+                    resultado.Adicione($"{processo} não foi encontrado.");
+                    return resultado;
+                }
+
+                resultado.Adicione($"{processo} foi encontrado com sucesso.");
+
+                resultado.Movimentacoes = ObtenhaMovimentacoes(resultado.Processo, html);
+                if (resultado.Movimentacoes.Any(m => m.EhValido(false)))
+                {
+                    resultado.Adicione($"Este processo possui movimentação. Total de {resultado.Movimentacoes.Count(m => m.EhValido())}.");
+                }
+                else
+                {
+                    resultado.Adicione($"Não foi encontrado movimentações para este processo.");
+                }
+
+                return resultado;
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
-                ServicoDeLog.Instancia.Registre(ex.Message);
+                resultado.Adicione(ex.Message);
+                return resultado;
             }
         }
 
@@ -37,17 +58,24 @@ namespace DataLawyer.Rastreamento
         {
             try
             {
-                var texto = HttpUtility.HtmlDecode(html.DocumentNode.SelectSingleNode(xpath)?.InnerText);
+                var texto = Texto(html.DocumentNode.SelectSingleNode(xpath)?.InnerText);
                 return texto;
             }
-            catch
-            {
-                return null;
-            }
+            catch { return null; }
         }
 
-        protected abstract Uri Uri(string numeroDoProcesso, GrauDeProcesso grau);
-        protected abstract Processo Obtenha(string numeroDoProcesso, GrauDeProcesso grau, HtmlDocument html);
+        protected string Texto(string valor)
+        {
+            try
+            {
+                var texto = HttpUtility.HtmlDecode(valor);
+                return texto.FormateTexto();
+            }
+            catch { return null; }
+        }
+
+        protected abstract Uri Uri(string numeroDoProcesso);
+        protected abstract Processo Obtenha(string numeroDoProcesso, HtmlDocument html);
         protected abstract IEnumerable<MovimentacaoDeProcesso> ObtenhaMovimentacoes(Processo processo, HtmlDocument html);
     }
-}    
+}

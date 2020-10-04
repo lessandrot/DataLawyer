@@ -1,21 +1,17 @@
-﻿using System;
-using System.Linq;
-using NUnit.Framework;
-using DataLawyer.Servico;
+﻿using NUnit.Framework;
 using DataLawyer.Dominio;
 using DataLawyer.Rastreamento;
+using DataLawyer.Servico;
 
 namespace DataLawyer.Teste.Servico
 {
     public class TesteDeRastreamento
     {
         [Test]
-        public void DeveRastrearEGravar()
+        public void DeveRastrear()
         {
-            var rastreador = new RastreadorTJBA();
-            rastreador.Rastreie("0809979-67.2015.8.05.0080", GrauDeProcesso.Segundo);
-
-            var processo = ServicoDeProcesso.Instancia.Obtenha().First();
+            var resultado = ServicoDeRastreamento.Instancia.RastreieTJBA("0809979-67.2015.8.05.0080", GrauDeProcesso.Segundo);
+            var processo = resultado.Processo;
             Assert.AreEqual("Apelação", processo.Classe);
             Assert.AreEqual("Cível", processo.Area);
             Assert.AreEqual("Vícios de Construção", processo.Assunto);

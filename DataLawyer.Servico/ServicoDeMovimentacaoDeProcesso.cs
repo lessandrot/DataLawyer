@@ -12,10 +12,10 @@ namespace DataLawyer.Servico
 
         private PersistenciaDeMovimentacaoDeProcesso _persistencia = PersistenciaDeMovimentacaoDeProcesso.Instancia;
 
-        public IEnumerable<MovimentacaoDeProcesso> Obtenha(Processo processo) => _persistencia.Obtenha(processo);
+        public IEnumerable<MovimentacaoDeProcesso> Obtenha(int processoId) => _persistencia.Obtenha(processoId);
 
         public void Grave(MovimentacaoDeProcesso movimentacao) => _persistencia.Grave(movimentacao);
 
-        public void Exclua(MovimentacaoDeProcesso movimentacao) => _persistencia.Exclua(movimentacao);
+        public void Exclua(int id) => _persistencia.Exclua(id);
     }
 }

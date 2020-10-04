@@ -9,9 +9,11 @@ namespace DataLawyer.Rastreamento
 {
     public class RastreadorTJBA : Rastreador
     {
-        protected override Processo Obtenha(string numeroDoProcesso, GrauDeProcesso grau, HtmlDocument html)
+        public RastreadorTJBA(GrauDeProcesso grau) : base(grau) { }
+
+        protected override Processo Obtenha(string numeroDoProcesso, HtmlDocument html)
         {
-            var processo = new Processo(numeroDoProcesso, grau)
+            var processo = new Processo(numeroDoProcesso, Grau)
             {
                 Classe = Texto(html, "//table[4]/tr/td/table[2]/tr[2]/td[2]/table/tr/td/span/span"),
                 Area = Texto(html, "(//table[4]/tr/td/table[2]/tr[3]/td[2]/table/tr/td/text())[last()]"),
@@ -27,20 +29,24 @@ namespace DataLawyer.Rastreamento
         protected override IEnumerable<MovimentacaoDeProcesso> ObtenhaMovimentacoes(Processo processo, HtmlDocument html)
         {
             var datas = html.DocumentNode.SelectNodes("//table[@id='tabelaUltimasMovimentacoes']/tr/td[1]")?
-                                          .Select(n => HttpUtility.HtmlDecode(n.InnerText)) ?? new List<string>();
+                                          .Select(n => Texto(n.InnerText)) ?? new List<string>();
 
             var descricoes = html.DocumentNode.SelectNodes("//table[@id='tabelaUltimasMovimentacoes']/tr/td[3]")?
-                                              .Select(n => HttpUtility.HtmlDecode(n.InnerText)) ?? new List<string>();
+                                              .Select(n => Texto(n.InnerText)) ?? new List<string>();
 
             var movimentacoes = datas.Zip(descricoes).Select(i =>
             {
-                return new MovimentacaoDeProcesso(processo, DateTime.Parse(i.First), i.Second);
+                var movimentacao = new MovimentacaoDeProcesso(processo, i.Second)
+                {
+                    DataHora = DateTime.Parse(i.First)
+                };
+                return movimentacao;
             });
 
             return movimentacoes;
         }
 
-        protected override Uri Uri(string numeroDoProcesso, GrauDeProcesso grau)
+        protected override Uri Uri(string numeroDoProcesso)
         {
             var builder = new UriBuilder("http://esaj.tjba.jus.br/cpo/sg/search.do");
 

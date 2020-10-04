@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DataLawyer.Dominio;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLawyer.Persistencia
 {
@@ -12,62 +14,71 @@ namespace DataLawyer.Persistencia
 
         public Processo Obtenha(int id)
         {
-            using (var contexto = new Contexto())
-            {
-                return contexto.Processo.Find(id);
-            }
+            using var contexto = new Contexto();
+
+            var processo = contexto.Processo.Find(id);
+            if (processo is null) throw new Exception("Processo inexistente.");
+
+            return processo;
+        }
+
+        public Processo Obtenha(string numero)
+        {
+            using var contexto = new Contexto();
+
+            var processo = contexto.Processo.FirstOrDefault(p => p.Numero == numero);
+            if (processo is null) throw new Exception("Processo inexistente.");
+
+            return processo;
         }
 
         public IEnumerable<Processo> Obtenha()
         {
-            var processos = new List<Processo>();
-
-            using (var contexto = new Contexto())
-            {
-                var lista = contexto.Processo.ToList();
-                processos.AddRange(lista);
-            }
-
-            return processos.OrderBy(p => p.Numero);
+            using var contexto = new Contexto();
+            var processos = contexto.Processo.AsNoTracking()
+                                             .ToList().OrderBy(p => p.Numero);
+            return processos;
         }
 
         public Processo Grave(Processo processo)
         {
-            if (processo is null) return processo;
+            if (processo is null) throw new Exception("Processo não informado.");
+            processo.EhValido();
 
-            using (var contexto = new Contexto())
+            using var contexto = new Contexto();
+            var processoExistente = contexto.Processo.FirstOrDefault(p => p.Numero == processo.Numero);
+
+            if (processoExistente is null)
             {
-                var processoExistente = contexto.Processo.FirstOrDefault(p => p.Equals(processo));
-
-                if (processoExistente is null)
-                {
-                    contexto.Processo.Add(processo);
-                    contexto.SaveChanges();
-                    return processo;
-                }
-
-                processoExistente.Grau = processo.Grau;
-                processoExistente.Classe = processo.Classe;
-                processoExistente.Area = processo.Area;
-                processoExistente.Assunto = processo.Assunto;
-                processoExistente.Origem = processo.Origem;
-                processoExistente.Distribuicao = processo.Distribuicao;
-                processoExistente.Relator = processo.Relator;
-                contexto.Update(processoExistente);
+                contexto.Processo.Add(processo);
                 contexto.SaveChanges();
-
                 return processo;
             }
+
+            processoExistente.Grau = processo.Grau;
+            processoExistente.Classe = processo.Classe;
+            processoExistente.Area = processo.Area;
+            processoExistente.Assunto = processo.Assunto;
+            processoExistente.Origem = processo.Origem;
+            processoExistente.Distribuicao = processo.Distribuicao;
+            processoExistente.Relator = processo.Relator;
+
+            contexto.Processo.Update(processoExistente);
+            contexto.SaveChanges();
+
+            return processo;
         }
 
-        public void Exclua(Processo processo)
+        public void Exclua(int id)
         {
-            using (var contexto = new Contexto())
-            {
-                var processoExistente = contexto.Processo.Find(processo.Id);
-                contexto.Remove(processoExistente);
-                contexto.SaveChanges();
-            }
+            using var contexto = new Contexto();
+            var processo = Obtenha(id);
+
+            var movimentacoes = PersistenciaDeMovimentacaoDeProcesso.Instancia.Obtenha(processo.Id);
+            if (movimentacoes.Any()) throw new Exception("Não é permitido excluir processo com movimentação.");
+
+            contexto.Processo.Remove(processo);
+            contexto.SaveChanges();
         }
     }
 }

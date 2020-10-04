@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLawyer.Teste.Servico", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLawyer.Rastreamento", "DataLawyer.Rastreamento\DataLawyer.Rastreamento.csproj", "{45817F5E-5701-46AF-A94C-498E11746AE6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLawyer.Nucleo", "DataLawyer.Nucleo\DataLawyer.Nucleo.csproj", "{47A78EA5-4A24-473A-A64D-5D388064440F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLawyer.Api", "DataLawyer.Api\DataLawyer.Api.csproj", "{EA63249F-8FD1-4E27-9D0F-7E749E9854A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,10 @@ Global
 		{45817F5E-5701-46AF-A94C-498E11746AE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45817F5E-5701-46AF-A94C-498E11746AE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45817F5E-5701-46AF-A94C-498E11746AE6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{47A78EA5-4A24-473A-A64D-5D388064440F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{47A78EA5-4A24-473A-A64D-5D388064440F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{47A78EA5-4A24-473A-A64D-5D388064440F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{47A78EA5-4A24-473A-A64D-5D388064440F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA63249F-8FD1-4E27-9D0F-7E749E9854A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA63249F-8FD1-4E27-9D0F-7E749E9854A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA63249F-8FD1-4E27-9D0F-7E749E9854A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA63249F-8FD1-4E27-9D0F-7E749E9854A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

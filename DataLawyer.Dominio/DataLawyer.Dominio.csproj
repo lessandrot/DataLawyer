@@ -8,8 +8,4 @@
     <OutputPath></OutputPath>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DataLawyer.Nucleo\DataLawyer.Nucleo.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -1,5 +1,5 @@
+﻿using System;
 using NUnit.Framework;
-using System;
 using DataLawyer.Dominio;
 
 namespace DataLawyer.Teste.Dominio
@@ -8,34 +8,43 @@ namespace DataLawyer.Teste.Dominio
     {
         [Test]
         [TestCase(null)]
-        [TestCase("")]        
+        [TestCase("")]
         [TestCase(" ")]
-        [TestCase("   ")]        
+        [TestCase("   ")]
         public void NaoDeveExistirSemNumero(string numero)
         {
-            var e = Assert.Throws<Exception>(() => new Processo(numero, GrauDeProcesso.Primeiro));
-            Assert.That(e.Message, Is.EqualTo("O n�mero do processo deve ser informado."));
-        }
+            var e = Assert.Throws<Exception>(() => Obtenha(numero).EhValido());
+            Assert.IsTrue(e.Message.Contains("O número do processo deve ser informado."));
+        }        
 
         [Test]
-        public void NaoDeveExistirComNumeroInvalido()
+        [TestCase("1")]
+        [TestCase("abcdefg")]
+        [TestCase("!@#$%¨&*/?.")]
+        [TestCase("1234567890123456789")]
+        public void NaoDeveExistirComNumeroInvalido(string numero)
         {
-            var e = Assert.Throws<Exception>(() => new Processo("1", null));
-            Assert.That(e.Message, Is.EqualTo("O n�mero do processo deve estar no padr�o CNJ."));
-        }
-
-        [Test]
-        public void NaoDeveExistirSemGrau()
-        {
-            var e = Assert.Throws<Exception>(() => new Processo("00000000000000000001", null));
-            Assert.That(e.Message, Is.EqualTo("O grau do processo deve ser informado."));
+            var e = Assert.Throws<Exception>(() => Obtenha(numero).EhValido());
+            Assert.IsTrue(e.Message.Contains("O número do processo deve estar no padrão CNJ."));
         }
 
         [Test]
         public void DeveExistirComTodosOsDadosObrigatorios()
-        {            
-            var processo = new Processo("00000000000000000001", GrauDeProcesso.Segundo);
-            Assert.IsNotNull(processo);
+        {
+            Assert.DoesNotThrow(() => Obtenha("12345678901234567890").EhValido());
+        }
+
+        private Processo Obtenha(string numero)
+        {
+            return new Processo(numero, GrauDeProcesso.Primeiro)
+            {
+                Classe = "Apelaçăo",
+                Area = "Cível",
+                Assunto = "Vícios de Construçăo",
+                Origem = "Comarca de Feira de Santana",
+                Distribuicao = "Primeira Câmara Cível",
+                Relator = "MARIA DE LOURDES"
+            };
         }
     }
 }
