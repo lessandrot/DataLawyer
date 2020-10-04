@@ -40,7 +40,7 @@ namespace DataLawyer.Persistencia
             return processos;
         }
 
-        public Processo Grave(Processo processo)
+        public void Grave(Processo processo)
         {
             if (processo is null) throw new Exception("Processo não informado.");
             processo.EhValido();
@@ -52,21 +52,14 @@ namespace DataLawyer.Persistencia
             {
                 contexto.Processo.Add(processo);
                 contexto.SaveChanges();
-                return processo;
+                return;
             }
 
-            processoExistente.Grau = processo.Grau;
-            processoExistente.Classe = processo.Classe;
-            processoExistente.Area = processo.Area;
-            processoExistente.Assunto = processo.Assunto;
-            processoExistente.Origem = processo.Origem;
-            processoExistente.Distribuicao = processo.Distribuicao;
-            processoExistente.Relator = processo.Relator;
+            processo.Id = processoExistente.Id;
+            processoExistente.MergeProperties(processo);
 
             contexto.Processo.Update(processoExistente);
             contexto.SaveChanges();
-
-            return processo;
         }
 
         public void Exclua(int id)

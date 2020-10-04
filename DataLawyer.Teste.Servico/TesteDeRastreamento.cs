@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using DataLawyer.Dominio;
-using DataLawyer.Rastreamento;
 using DataLawyer.Servico;
+using System.Linq;
 
 namespace DataLawyer.Teste.Servico
 {
@@ -18,6 +18,22 @@ namespace DataLawyer.Teste.Servico
             Assert.AreEqual("Comarca de Feira de Santana / Foro de comarca Feira De Santana / 1ª V Dos Feitos De Rel De Cons Civ E Comerciais", processo.Origem);
             Assert.AreEqual("Primeira Câmara Cível", processo.Distribuicao);
             Assert.AreEqual("MARIA DE LOURDES PINHO MEDAUAR", processo.Relator);
+            
+            var processos = ServicoDeProcesso.Instancia.Obtenha();
+            Assert.AreEqual(1, processos.Count());
+            
+            processo = processos.FirstOrDefault();
+            var movimentacoes = ServicoDeMovimentacaoDeProcesso.Instancia.Obtenha(processo.Id);
+            var totalMovimentado = movimentacoes.Count();
+
+            // Rastreando novamente para validar duplicidade
+            ServicoDeRastreamento.Instancia.RastreieTJBA(processo.Numero, GrauDeProcesso.Segundo);
+
+            processos = ServicoDeProcesso.Instancia.Obtenha();
+            Assert.AreEqual(1, processos.Count());
+
+            movimentacoes = ServicoDeMovimentacaoDeProcesso.Instancia.Obtenha(processo.Id);
+            Assert.AreEqual(totalMovimentado, movimentacoes.Count());
         }
     }
 }

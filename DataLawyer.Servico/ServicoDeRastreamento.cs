@@ -22,15 +22,13 @@ namespace DataLawyer.Servico
                 if (resultado.Processo?.EhValido(false) ?? false)
                 {
                     PersistenciaDeProcesso.Instancia.Grave(resultado.Processo);
-                    var processo = PersistenciaDeProcesso.Instancia.Obtenha(resultado.Processo.Numero);
 
                     var movimentacoes = resultado.Movimentacoes.Where(m => m.EhValido(false));
                     if (movimentacoes.Any())
                     {
-                        PersistenciaDeMovimentacaoDeProcesso.Instancia.ExcluaTodas(processo.Id);
+                        PersistenciaDeMovimentacaoDeProcesso.Instancia.ExcluaTodas(resultado.Processo.Id);
                         foreach (var movimentacao in movimentacoes)
-                        {
-                            movimentacao.Processo = processo;
+                        {                            
                             PersistenciaDeMovimentacaoDeProcesso.Instancia.Grave(movimentacao);
                         }
                     }

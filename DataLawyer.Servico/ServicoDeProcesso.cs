@@ -16,7 +16,7 @@ namespace DataLawyer.Servico
 
         public IEnumerable<Processo> Obtenha() => _persistencia.Obtenha();
 
-        public Processo Grave(Processo processo) => _persistencia.Grave(processo);
+        public void Grave(Processo processo) => _persistencia.Grave(processo);
 
         public void Exclua(int id) => _persistencia.Exclua(id);
     }

@@ -18,8 +18,14 @@ namespace DataLawyer.Api.Controllers
             => await Execute(() => ServicoDeProcesso.Instancia.Obtenha(id));
 
         [HttpPut]
-        public async Task<ActionResult<Processo>> Put([FromBody] Processo processo) 
-            => await Execute(() => ServicoDeProcesso.Instancia.Grave(processo));
+        public async Task<ActionResult<Processo>> Put([FromBody] Processo processo)
+        {
+            return await Execute(() =>
+            {
+                ServicoDeProcesso.Instancia.Grave(processo);
+                return processo;
+            });
+        }
 
         [HttpDelete, Route("{id:int}")]
         public async Task<ActionResult> Delete(int id)

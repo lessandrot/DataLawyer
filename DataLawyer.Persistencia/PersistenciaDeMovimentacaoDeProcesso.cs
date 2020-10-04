@@ -42,10 +42,10 @@ namespace DataLawyer.Persistencia
                 return;
             }
 
-            movimentacaoExistente.DataHora = movimentacao.DataHora;
-            movimentacaoExistente.Descricao = movimentacao.Descricao;
+            movimentacao.Id = movimentacaoExistente.Id;
+            movimentacaoExistente.MergeProperties(movimentacao);
 
-            contexto.MovimentacaoDeProcesso.Update(movimentacaoExistente);
+            contexto.MovimentacaoDeProcesso.Update(movimentacaoExistente);            
             contexto.SaveChanges();
         }
 
