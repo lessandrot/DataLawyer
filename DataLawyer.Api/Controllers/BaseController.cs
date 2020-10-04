@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 namespace DataLawyer.Api.Controllers
 {
     [ApiController]
-    public abstract class  BaseController : ControllerBase
+    public abstract class BaseController : ControllerBase
     {
-        private ActionResult _result;        
+        private ActionResult _result;
 
         protected async Task<ActionResult> Execute(Action action)
         {
@@ -40,7 +40,7 @@ namespace DataLawyer.Api.Controllers
             });
         }
 
-        protected void Success(object value = null) => _result = Ok(value);
+        protected void Success(object value = null) => _result = value is null ? (ActionResult)Ok() : Ok(value);
 
         protected void Error(Exception ex)
         {

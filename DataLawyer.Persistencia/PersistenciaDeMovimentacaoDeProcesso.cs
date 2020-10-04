@@ -31,12 +31,12 @@ namespace DataLawyer.Persistencia
 
             using var contexto = new Contexto();
 
+            movimentacao.Processo = contexto.Processo.Find(movimentacao.Processo.Id);
+            if (movimentacao.Processo is null) throw new Exception("Processo inexistente.");
+
             var movimentacaoExistente = contexto.MovimentacaoDeProcesso.Find(movimentacao.Id);
             if (movimentacaoExistente is null)
-            {
-                movimentacao.Processo = contexto.Processo.Find(movimentacao.Processo.Id);
-                if (movimentacao.Processo is null) throw new Exception("Processo inexistente.");
-
+            {                 
                 contexto.MovimentacaoDeProcesso.Add(movimentacao);
                 contexto.SaveChanges();
                 return;
