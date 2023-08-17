@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using DataLawyer.Dominio;
-using DataLawyer.Persistencia;
+using DataLawyer.Dominio.Modelo;
+using DataLawyer.Persistencia.Repositorio;
 
 namespace DataLawyer.Servico
 {
@@ -10,7 +10,7 @@ namespace DataLawyer.Servico
         public static ServicoDeLog Instancia => _instancia ?? new ServicoDeLog();
         private ServicoDeLog() { }
 
-        private PersistenciaDeLog _persistencia = PersistenciaDeLog.Instancia;
+        private RepositorioDeLog _persistencia = RepositorioDeLog.Instancia;
 
         public void Registre(string erro) => _persistencia.Registre(new LogDeErro(erro));
         public IEnumerable<LogDeErro> Obtenha() => _persistencia.Obtenha();

@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using DataLawyer.Servico;
 using DataLawyer.Rastreamento;
-using DataLawyer.Dominio;
 using System.Collections.Generic;
+using DataLawyer.Dominio.Modelo;
 
 namespace DataLawyer.Api.Controllers
 {

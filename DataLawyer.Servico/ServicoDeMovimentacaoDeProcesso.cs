@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using DataLawyer.Dominio;
-using DataLawyer.Persistencia;
+using DataLawyer.Dominio.Modelo;
+using DataLawyer.Persistencia.Repositorio;
 
 namespace DataLawyer.Servico
 {
@@ -10,7 +10,7 @@ namespace DataLawyer.Servico
         public static ServicoDeMovimentacaoDeProcesso Instancia => _instancia ?? new ServicoDeMovimentacaoDeProcesso();
         private ServicoDeMovimentacaoDeProcesso() { }
 
-        private PersistenciaDeMovimentacaoDeProcesso _persistencia = PersistenciaDeMovimentacaoDeProcesso.Instancia;
+        private RepositorioDeMovimentacaoDeProcesso _persistencia = RepositorioDeMovimentacaoDeProcesso.Instancia;
 
         public IEnumerable<MovimentacaoDeProcesso> Obtenha(int processoId) => _persistencia.Obtenha(processoId);
 

@@ -1,15 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using DataLawyer.Dominio;
+using DataLawyer.Persistencia.Configuracao;
+using DataLawyer.Dominio.Modelo;
 
-namespace DataLawyer.Persistencia
+namespace DataLawyer.Persistencia.Repositorio
 {
-    public class PersistenciaDeLog
+    public class RepositorioDeLog
     {
-        private static PersistenciaDeLog _instancia = null;
-        public static PersistenciaDeLog Instancia => _instancia ?? new PersistenciaDeLog();
-        private PersistenciaDeLog() { }
+        private static RepositorioDeLog _instancia = null;
+        public static RepositorioDeLog Instancia => _instancia ?? new RepositorioDeLog();
+        private RepositorioDeLog() { }
 
         public void Registre(LogDeErro log)
         {

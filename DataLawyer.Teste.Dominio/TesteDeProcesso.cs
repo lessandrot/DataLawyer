@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using DataLawyer.Dominio;
+using DataLawyer.Dominio.Modelo;
 
 namespace DataLawyer.Teste.Dominio
 {

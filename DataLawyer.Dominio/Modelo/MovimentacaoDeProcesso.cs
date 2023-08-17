@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace DataLawyer.Dominio
+namespace DataLawyer.Dominio.Modelo
 {
     public class MovimentacaoDeProcesso
     {
@@ -14,7 +14,7 @@ namespace DataLawyer.Dominio
         {
             Processo = processo;
             Descricao = descricao;
-            DataHora = DateTime.Now;            
+            DataHora = DateTime.Now;
         }
 
         public int Id { get; set; }
@@ -32,7 +32,7 @@ namespace DataLawyer.Dominio
 
         public override bool Equals(object obj)
         {
-            var movimentacao = (obj as MovimentacaoDeProcesso);
+            var movimentacao = obj as MovimentacaoDeProcesso;
             return Processo.Equals(movimentacao?.Processo) && DataHora.Equals(movimentacao.DataHora);
         }
 

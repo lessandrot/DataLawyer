@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace DataLawyer.Dominio
+namespace DataLawyer.Dominio.Modelo
 {
     public enum GrauDeProcesso
     {

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using DataLawyer.Persistencia;
 using Microsoft.EntityFrameworkCore;
+using DataLawyer.Persistencia.Configuracao;
 
 namespace DataLawyer.Api
 {

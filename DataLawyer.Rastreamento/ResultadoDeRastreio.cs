@@ -1,4 +1,4 @@
-﻿using DataLawyer.Dominio;
+﻿using DataLawyer.Dominio.Modelo;
 using System.Collections.Generic;
 
 namespace DataLawyer.Rastreamento

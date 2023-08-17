@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DataLawyer.Dominio;
 using DataLawyer.Servico;
+using DataLawyer.Dominio.Modelo;
 
 namespace DataLawyer.Api.Controllers
 {

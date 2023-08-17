@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using DataLawyer.Dominio;
+using DataLawyer.Dominio.Modelo;
 using HtmlAgilityPack;
 
 namespace DataLawyer.Rastreamento

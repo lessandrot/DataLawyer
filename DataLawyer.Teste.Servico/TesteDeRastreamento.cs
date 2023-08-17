@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
-using DataLawyer.Dominio;
 using DataLawyer.Servico;
 using System.Linq;
 using System;
+using DataLawyer.Dominio.Modelo;
 
 namespace DataLawyer.Teste.Servico
 {

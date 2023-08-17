@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using DataLawyer.Servico;
-using DataLawyer.Dominio;
+using DataLawyer.Dominio.Modelo;
 
 namespace DataLawyer.Teste.Servico
 {

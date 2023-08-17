@@ -3,19 +3,21 @@ using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using DataLawyer.Dominio;
+using DataLawyer.Persistencia.Configuracao;
+using DataLawyer.Dominio.Modelo;
 
-namespace DataLawyer.Persistencia
+namespace DataLawyer.Persistencia.Repositorio
 {
-    public class PersistenciaDeMovimentacaoDeProcesso
+    public class RepositorioDeMovimentacaoDeProcesso
     {
-        private static PersistenciaDeMovimentacaoDeProcesso _instancia = null;
-        public static PersistenciaDeMovimentacaoDeProcesso Instancia => _instancia ?? new PersistenciaDeMovimentacaoDeProcesso();
-        private PersistenciaDeMovimentacaoDeProcesso() { }
+        private static RepositorioDeMovimentacaoDeProcesso _instancia = null;
+        public static RepositorioDeMovimentacaoDeProcesso Instancia => _instancia ?? new RepositorioDeMovimentacaoDeProcesso();
+        private RepositorioDeMovimentacaoDeProcesso() { }
 
         public IEnumerable<MovimentacaoDeProcesso> Obtenha(int processoId)
         {
             using var contexto = new Contexto();
-            var processo = PersistenciaDeProcesso.Instancia.Obtenha(processoId);
+            var processo = RepositorioDeProcesso.Instancia.Obtenha(processoId);
 
             var movimentacoes = contexto.MovimentacaoDeProcesso.Include(m => m.Processo).AsNoTracking()
                                                                .Where(m => m.Processo.Equals(processo))
@@ -36,7 +38,7 @@ namespace DataLawyer.Persistencia
 
             var movimentacaoExistente = contexto.MovimentacaoDeProcesso.Find(movimentacao.Id);
             if (movimentacaoExistente is null)
-            {                 
+            {
                 contexto.MovimentacaoDeProcesso.Add(movimentacao);
                 contexto.SaveChanges();
                 return;
@@ -45,7 +47,7 @@ namespace DataLawyer.Persistencia
             movimentacao.Id = movimentacaoExistente.Id;
             movimentacaoExistente.MergeProperties(movimentacao);
 
-            contexto.MovimentacaoDeProcesso.Update(movimentacaoExistente);            
+            contexto.MovimentacaoDeProcesso.Update(movimentacaoExistente);
             contexto.SaveChanges();
         }
 

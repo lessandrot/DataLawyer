@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using DataLawyer.Dominio;
+using DataLawyer.Dominio.Modelo;
+using DataLawyer.Persistencia.Configuracao;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataLawyer.Persistencia
+namespace DataLawyer.Persistencia.Repositorio
 {
-    public class PersistenciaDeProcesso
+    public class RepositorioDeProcesso
     {
-        private static PersistenciaDeProcesso _instancia = null;
-        public static PersistenciaDeProcesso Instancia => _instancia ?? new PersistenciaDeProcesso();
-        private PersistenciaDeProcesso() { }
+        private static RepositorioDeProcesso _instancia = null;
+        public static RepositorioDeProcesso Instancia => _instancia ?? new RepositorioDeProcesso();
+        private RepositorioDeProcesso() { }
 
         public Processo Obtenha(int id)
         {
@@ -67,7 +69,7 @@ namespace DataLawyer.Persistencia
             using var contexto = new Contexto();
             var processo = Obtenha(id);
 
-            var movimentacoes = PersistenciaDeMovimentacaoDeProcesso.Instancia.Obtenha(processo.Id);
+            var movimentacoes = RepositorioDeMovimentacaoDeProcesso.Instancia.Obtenha(processo.Id);
             if (movimentacoes.Any()) throw new Exception("Não é permitido excluir processo com movimentação.");
 
             contexto.Processo.Remove(processo);

@@ -4,6 +4,7 @@ using System.Linq;
 using HtmlAgilityPack;
 using System.Collections.Generic;
 using DataLawyer.Dominio;
+using DataLawyer.Dominio.Modelo;
 
 namespace DataLawyer.Rastreamento
 {

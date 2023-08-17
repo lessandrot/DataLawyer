@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using DataLawyer.Dominio;
-using DataLawyer.Persistencia;
+using DataLawyer.Dominio.Modelo;
+using DataLawyer.Persistencia.Repositorio;
 using DataLawyer.Rastreamento;
 
 namespace DataLawyer.Servico
@@ -21,15 +21,15 @@ namespace DataLawyer.Servico
 
                 if (resultado.Processo?.EhValido(false) ?? false)
                 {
-                    PersistenciaDeProcesso.Instancia.Grave(resultado.Processo);
+                    RepositorioDeProcesso.Instancia.Grave(resultado.Processo);
 
                     var movimentacoes = resultado.Movimentacoes.Where(m => m.EhValido(false));
                     if (movimentacoes.Any())
                     {
-                        PersistenciaDeMovimentacaoDeProcesso.Instancia.ExcluaTodas(resultado.Processo.Id);
+                        RepositorioDeMovimentacaoDeProcesso.Instancia.ExcluaTodas(resultado.Processo.Id);
                         foreach (var movimentacao in movimentacoes)
                         {                            
-                            PersistenciaDeMovimentacaoDeProcesso.Instancia.Grave(movimentacao);
+                            RepositorioDeMovimentacaoDeProcesso.Instancia.Grave(movimentacao);
                         }
                     }
                 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace DataLawyer.Dominio
+namespace DataLawyer.Dominio.Modelo
 {
     public class Processo
     {
@@ -33,7 +33,7 @@ namespace DataLawyer.Dominio
 
             if (string.IsNullOrWhiteSpace(Numero)) erros.AppendLine("O número do processo deve ser informado.");
             else
-            {                
+            {
                 Numero = Numero.SomenteNumeros();
                 if (Numero.Length != 20) erros.AppendLine("O número do processo deve estar no padrão CNJ.");
 
@@ -60,6 +60,6 @@ namespace DataLawyer.Dominio
             if (dispareExcessao == true && !ehValido) throw new Exception(erros.ToString());
 
             return ehValido;
-        }        
+        }
     }
 }

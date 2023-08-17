@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DataLawyer.Dominio
+namespace DataLawyer.Dominio.Modelo
 {
     public class LogDeErro
     {

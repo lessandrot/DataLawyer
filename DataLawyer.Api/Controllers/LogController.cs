@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DataLawyer.Servico;
-using DataLawyer.Dominio;
+using DataLawyer.Dominio.Modelo;
 
 namespace DataLawyer.Api.Controllers
 {
