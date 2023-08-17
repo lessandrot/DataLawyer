@@ -1,5 +1,5 @@
 # Data Lawyer
-Desafio para a implementação de web scraping
+Desafio para a implementação de um web crawler e scraping
 
 ## Arquitetura
 ### Camada de Domínio
