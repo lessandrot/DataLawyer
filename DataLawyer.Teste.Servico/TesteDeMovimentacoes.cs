@@ -26,13 +26,13 @@ namespace DataLawyer.Teste.Servico
             var processo = Obtenha("00000000000000000001");
             ServicoDeProcesso.Instancia.Grave(processo);
 
-            processo = ServicoDeProcesso.Instancia.Obtenha(1);
+            processo = ServicoDeProcesso.Instancia.Obtenha().FirstOrDefault();
             Assert.IsNotNull(processo);
         }
 
         private void AltereProcesso()
         {
-            var processo = ServicoDeProcesso.Instancia.Obtenha(1);
+            var processo = ServicoDeProcesso.Instancia.Obtenha().First();
 
             processo.Grau = GrauDeProcesso.Segundo;
             processo.Classe = "Apelaçăo2";
@@ -43,7 +43,7 @@ namespace DataLawyer.Teste.Servico
             processo.Relator = "MARIA DE LOURDES2";
             ServicoDeProcesso.Instancia.Grave(processo);
 
-            processo = ServicoDeProcesso.Instancia.Obtenha(1);
+            processo = ServicoDeProcesso.Instancia.Obtenha(processo.Id);
             Assert.AreEqual(GrauDeProcesso.Segundo, processo.Grau);
             Assert.AreEqual("Apelaçăo2", processo.Classe);
             Assert.AreEqual("Cível2", processo.Area);
@@ -55,7 +55,7 @@ namespace DataLawyer.Teste.Servico
 
         private void CrieMovimentacao1()
         {
-            var processo = ServicoDeProcesso.Instancia.Obtenha(1);
+            var processo = ServicoDeProcesso.Instancia.Obtenha().First();
             var movimentacao = new MovimentacaoDeProcesso(processo, "Movimentação");
             ServicoDeMovimentacaoDeProcesso.Instancia.Grave(movimentacao);
 
@@ -68,7 +68,7 @@ namespace DataLawyer.Teste.Servico
             var novaData = DateTime.Today.AddDays(1);
             var novaHora = new TimeSpan(22, 3, 59);
 
-            var processo = ServicoDeProcesso.Instancia.Obtenha(1);
+            var processo = ServicoDeProcesso.Instancia.Obtenha().First();
             var movimentacoes = ServicoDeMovimentacaoDeProcesso.Instancia.Obtenha(processo.Id);
             var persistido = movimentacoes.First();
             persistido.Descricao = "Movimentação1";
@@ -83,7 +83,7 @@ namespace DataLawyer.Teste.Servico
 
         private void CrieMovimentacao2()
         {
-            var processo = ServicoDeProcesso.Instancia.Obtenha(1);
+            var processo = ServicoDeProcesso.Instancia.Obtenha().FirstOrDefault();
             var movimentacao = new MovimentacaoDeProcesso(processo, "Movimentação2");
             ServicoDeMovimentacaoDeProcesso.Instancia.Grave(movimentacao);
 
@@ -93,7 +93,7 @@ namespace DataLawyer.Teste.Servico
 
         private void Exclua()
         {
-            var processo = ServicoDeProcesso.Instancia.Obtenha(1);
+            var processo = ServicoDeProcesso.Instancia.Obtenha().FirstOrDefault();
 
             var e = Assert.Throws<Exception>(() => ServicoDeProcesso.Instancia.Exclua(processo.Id));
             Assert.That(e.Message, Is.EqualTo("Não é permitido excluir processo com movimentação."));            

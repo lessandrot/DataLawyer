@@ -2,6 +2,7 @@
 using DataLawyer.Dominio;
 using DataLawyer.Servico;
 using System.Linq;
+using System;
 
 namespace DataLawyer.Teste.Servico
 {
@@ -34,6 +35,21 @@ namespace DataLawyer.Teste.Servico
 
             movimentacoes = ServicoDeMovimentacaoDeProcesso.Instancia.Obtenha(processo.Id);
             Assert.AreEqual(totalMovimentado, movimentacoes.Count());
+
+            Exclua();
+        }
+
+        private void Exclua()
+        {
+            var processo = ServicoDeProcesso.Instancia.Obtenha().FirstOrDefault();
+            var movimentacoes = ServicoDeMovimentacaoDeProcesso.Instancia.Obtenha(processo.Id);
+
+            foreach( var movimentacao in movimentacoes)
+            {
+                ServicoDeMovimentacaoDeProcesso.Instancia.Exclua(movimentacao.Id);
+            }                                 
+
+            ServicoDeProcesso.Instancia.Exclua(processo.Id);            
         }
     }
 }
