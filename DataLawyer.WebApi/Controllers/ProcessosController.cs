@@ -6,13 +6,13 @@ namespace DataLawyer.WebApi.Controllers;
 
 public class ProcessosController: BaseController
 {    
-    public IActionResult Get() => Execute(() => ServicoDeProcesso.Instancia.Obtenha());
+    public IActionResult ObtenhaProcessos() => Execute(() => ServicoDeProcesso.Instancia.Obtenha());
 
     [HttpGet, Route("{id}")]
-    public IActionResult Get(int id) => Execute(() => ServicoDeProcesso.Instancia.Obtenha(id));
+    public IActionResult ObtenhaProcesso(int id) => Execute(() => ServicoDeProcesso.Instancia.Obtenha(id));
 
     [HttpPut]
-    public IActionResult Put(Processo processo)
+    public IActionResult GraveProcesso(Processo processo)
     {
         return Execute(() =>
         {
@@ -22,5 +22,5 @@ public class ProcessosController: BaseController
     }
 
     [HttpDelete, Route("{id}")]
-    public IActionResult Delete(int id) => Execute(() => ServicoDeProcesso.Instancia.Exclua(id));
+    public IActionResult ExcluaProcesso(int id) => Execute(() => ServicoDeProcesso.Instancia.Exclua(id));
 }

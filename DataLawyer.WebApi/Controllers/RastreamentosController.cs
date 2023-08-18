@@ -1,19 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DataLawyer.Servico;
-using DataLawyer.Dominio.Modelo;
 
 namespace DataLawyer.WebApi.Controllers;
-
 public class RastreamentosController: BaseController
 {
     [HttpGet("tjba/segundograu/{numeroDoProcesso}")]
-    public IActionResult Get_TJBA_2G(string numeroDoProcesso) 
-        => Execute(() => ServicoDeRastreamento.Instancia.ObtenhaTJBA(numeroDoProcesso, GrauDeProcesso.Segundo).Processo);
+    public IActionResult ObtenhaProcessoDoTJBA(string numeroDoProcesso) 
+        => Execute(() => ServicoDeRastreamento.Instancia.ObtenhaProcessoDoTJBA(numeroDoProcesso).Processo);
 
     [HttpGet("tjba/segundograu/movimentos/{numeroDoProcesso}")]
-    public IActionResult Get_TJBA_2G_Movimentos(string numeroDoProcesso) => Execute(() 
-        => ServicoDeRastreamento.Instancia.ObtenhaTJBA(numeroDoProcesso, GrauDeProcesso.Segundo).Movimentacoes);
+    public IActionResult ObtenhaMovimentosDoTJBA(string numeroDoProcesso) => Execute(() 
+        => ServicoDeRastreamento.Instancia.ObtenhaProcessoDoTJBA(numeroDoProcesso).Movimentacoes);
 
     [HttpPut("tjba/segundograu/{numeroDoProcesso}")]
-    public IActionResult Put_TJBA_2G(string numeroDoProcesso) => Execute(() => ServicoDeRastreamento.Instancia.GraveTJBA(numeroDoProcesso, GrauDeProcesso.Segundo).Mensagens);
+    public IActionResult GraveProcessoDoTJBA(string numeroDoProcesso) => Execute(() 
+        => ServicoDeRastreamento.Instancia.GraveProcessoDoTJBA(numeroDoProcesso).Mensagens);
 }

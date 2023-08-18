@@ -6,5 +6,5 @@ namespace DataLawyer.WebApi.Controllers;
 public class LogController: BaseController
 {
     [HttpGet("erros")]
-    public IActionResult Get() => Execute(() => ServicoDeLog.Instancia.Obtenha());
+    public IActionResult ObtenhaLogDeErros() => Execute(() => ServicoDeLog.Instancia.Obtenha());
 }

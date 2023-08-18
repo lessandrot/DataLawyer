@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using DataLawyer.Servico;
 using System.Linq;
-using DataLawyer.Dominio.Modelo;
 
 namespace DataLawyer.Teste.Servico
 {
@@ -10,7 +9,7 @@ namespace DataLawyer.Teste.Servico
         [Test]
         public void DeveRastrearGravar()
         {
-            var resultado = ServicoDeRastreamento.Instancia.GraveTJBA("0809979-67.2015.8.05.0080", GrauDeProcesso.Segundo);
+            var resultado = ServicoDeRastreamento.Instancia.GraveProcessoDoTJBA("0809979-67.2015.8.05.0080");
             var processo = resultado.Processo;
             Assert.AreEqual("Apelação", processo.Classe);
             Assert.AreEqual("Cível", processo.Area);
@@ -27,7 +26,7 @@ namespace DataLawyer.Teste.Servico
             var totalMovimentado = movimentacoes.Count();
 
             // Rastreando novamente para validar duplicidade
-            ServicoDeRastreamento.Instancia.GraveTJBA(processo.Numero, GrauDeProcesso.Segundo);
+            ServicoDeRastreamento.Instancia.GraveProcessoDoTJBA(processo.Numero);
 
             processos = ServicoDeProcesso.Instancia.Obtenha();
             Assert.AreEqual(1, processos.Count());

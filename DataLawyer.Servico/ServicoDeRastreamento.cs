@@ -12,11 +12,11 @@ namespace DataLawyer.Servico
         public static ServicoDeRastreamento Instancia => _instancia ?? new ServicoDeRastreamento();
         private ServicoDeRastreamento() { }
 
-        public ResultadoDeRastreio ObtenhaTJBA(string numeroDoProcesso, GrauDeProcesso grau)
+        public ResultadoDeRastreio ObtenhaProcessoDoTJBA(string numeroDoProcesso)
         {
             try
             {
-                var rastreador = new RastreadorTJBA(grau);
+                var rastreador = new RastreadorTJBA(GrauDeProcesso.Segundo);
                 var resultado = rastreador.Rastreie(numeroDoProcesso);
                 return resultado;
             }
@@ -27,11 +27,11 @@ namespace DataLawyer.Servico
             }
         }
 
-        public ResultadoDeRastreio GraveTJBA(string numeroDoProcesso, GrauDeProcesso grau)
+        public ResultadoDeRastreio GraveProcessoDoTJBA(string numeroDoProcesso)
         {
             try
             {
-                var resultado = ObtenhaTJBA(numeroDoProcesso, grau);
+                var resultado = ObtenhaProcessoDoTJBA(numeroDoProcesso);
 
                 if (resultado.Processo?.EhValido(false) ?? false)
                 {

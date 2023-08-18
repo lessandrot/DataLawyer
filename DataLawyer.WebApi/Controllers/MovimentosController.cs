@@ -7,10 +7,10 @@ namespace DataLawyer.WebApi.Controllers;
 public class MovimentosController: BaseController
 {
     [HttpGet("{processoId}")]
-    public IActionResult Get(int processoId) => Execute(() => ServicoDeMovimentacaoDeProcesso.Instancia.Obtenha(processoId));
+    public IActionResult ObtenhaMovimentos(int processoId) => Execute(() => ServicoDeMovimentacaoDeProcesso.Instancia.Obtenha(processoId));
 
     [HttpPut]
-    public IActionResult Put(MovimentacaoDeProcesso movimentacao)
+    public IActionResult GraveMovimento(MovimentacaoDeProcesso movimentacao)
     {
         return Execute(() =>
         {
@@ -20,5 +20,5 @@ public class MovimentosController: BaseController
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id) => Execute(() => ServicoDeMovimentacaoDeProcesso.Instancia.Exclua(id));
+    public IActionResult ExcluaMovimento(int id) => Execute(() => ServicoDeMovimentacaoDeProcesso.Instancia.Exclua(id));
 }
