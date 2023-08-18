@@ -37,7 +37,7 @@ namespace DataLawyer.Dominio.Modelo
         }
 
         public override int GetHashCode() => $"{Processo}.{DataHora}".GetHashCode();
-        public override string ToString() => $"Processo {Processo} - {DataHora.ToShortDateTimeString()}";
+        public override string ToString() => $"Processo {Processo} - {DataHora.ToShortDateTime()}";
 
         public bool EhValido(bool? dispareExcessao = true)
         {
@@ -49,7 +49,7 @@ namespace DataLawyer.Dominio.Modelo
             if (string.IsNullOrWhiteSpace(Descricao)) erros.AppendLine("A descrição da movimentação do processo deve ser informada.");
 
             var ehValido = erros.Length == 0;
-            if (dispareExcessao == true && !ehValido) throw new Exception(erros.ToString());
+            if (dispareExcessao == true && !ehValido) throw new ApplicationException(erros.ToString());
 
             return ehValido;
         }

@@ -19,7 +19,7 @@ namespace DataLawyer.Persistencia.Repositorio
             using var contexto = new Contexto();
 
             var processo = contexto.Processo.Find(id);
-            if (processo is null) throw new Exception("Processo inexistente.");
+            if (processo is null) throw new ApplicationException("Processo inexistente.");
 
             return processo;
         }
@@ -29,7 +29,7 @@ namespace DataLawyer.Persistencia.Repositorio
             using var contexto = new Contexto();
 
             var processo = contexto.Processo.FirstOrDefault(p => p.Numero == numero);
-            if (processo is null) throw new Exception("Processo inexistente.");
+            if (processo is null) throw new ApplicationException("Processo inexistente.");
 
             return processo;
         }
@@ -44,7 +44,7 @@ namespace DataLawyer.Persistencia.Repositorio
 
         public void Grave(Processo processo)
         {
-            if (processo is null) throw new Exception("Processo não informado.");
+            if (processo is null) throw new ApplicationException("Processo não informado.");
             processo.EhValido();
 
             using var contexto = new Contexto();
@@ -70,7 +70,7 @@ namespace DataLawyer.Persistencia.Repositorio
             var processo = Obtenha(id);
 
             var movimentacoes = RepositorioDeMovimentacaoDeProcesso.Instancia.Obtenha(processo.Id);
-            if (movimentacoes.Any()) throw new Exception("Não é permitido excluir processo com movimentação.");
+            if (movimentacoes.Any()) throw new ApplicationException("Não é permitido excluir processo com movimentação.");
 
             contexto.Processo.Remove(processo);
             contexto.SaveChanges();

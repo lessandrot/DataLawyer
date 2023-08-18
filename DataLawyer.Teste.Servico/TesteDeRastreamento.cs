@@ -8,9 +8,9 @@ namespace DataLawyer.Teste.Servico
     public class TesteDeRastreamento
     {
         [Test]
-        public void DeveRastrear()
+        public void DeveRastrearGravar()
         {
-            var resultado = ServicoDeRastreamento.Instancia.RastreieTJBA("0809979-67.2015.8.05.0080", GrauDeProcesso.Segundo);
+            var resultado = ServicoDeRastreamento.Instancia.GraveTJBA("0809979-67.2015.8.05.0080", GrauDeProcesso.Segundo);
             var processo = resultado.Processo;
             Assert.AreEqual("Apelação", processo.Classe);
             Assert.AreEqual("Cível", processo.Area);
@@ -27,7 +27,7 @@ namespace DataLawyer.Teste.Servico
             var totalMovimentado = movimentacoes.Count();
 
             // Rastreando novamente para validar duplicidade
-            ServicoDeRastreamento.Instancia.RastreieTJBA(processo.Numero, GrauDeProcesso.Segundo);
+            ServicoDeRastreamento.Instancia.GraveTJBA(processo.Numero, GrauDeProcesso.Segundo);
 
             processos = ServicoDeProcesso.Instancia.Obtenha();
             Assert.AreEqual(1, processos.Count());

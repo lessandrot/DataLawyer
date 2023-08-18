@@ -13,7 +13,7 @@ namespace DataLawyer.Teste.Dominio
         [TestCase("   ")]
         public void NaoDeveExistirSemNumero(string numero)
         {
-            var e = Assert.Throws<Exception>(() => Obtenha(numero).EhValido());
+            var e = Assert.Throws<ApplicationException>(() => Obtenha(numero).EhValido());
             Assert.IsTrue(e.Message.Contains("O número do processo deve ser informado."));
         }        
 
@@ -24,7 +24,7 @@ namespace DataLawyer.Teste.Dominio
         [TestCase("1234567890123456789")]
         public void NaoDeveExistirComNumeroInvalido(string numero)
         {
-            var e = Assert.Throws<Exception>(() => Obtenha(numero).EhValido());
+            var e = Assert.Throws<ApplicationException>(() => Obtenha(numero).EhValido());
             Assert.IsTrue(e.Message.Contains("O número do processo deve estar no padrão CNJ."));
         }
 

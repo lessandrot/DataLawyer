@@ -6,6 +6,7 @@ namespace DataLawyer.Dominio.Modelo
     public class Processo
     {
         public Processo() { }
+
         public Processo(string numero, GrauDeProcesso grau)
         {
             Numero = numero;
@@ -57,7 +58,7 @@ namespace DataLawyer.Dominio.Modelo
             }
 
             var ehValido = erros.Length == 0;
-            if (dispareExcessao == true && !ehValido) throw new Exception(erros.ToString());
+            if (dispareExcessao == true && !ehValido) throw new ApplicationException(erros.ToString());
 
             return ehValido;
         }

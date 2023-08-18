@@ -1,18 +1,23 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
-using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace DataLawyer.Dominio
 {
     public static class Extensoes
     {
+        private static CultureInfo _culture = CultureInfo.GetCultureInfo("pt-BR");
+
         public static long ParaInteiro(this DateTime dataHora) => long.Parse(dataHora.ToString("yyyyMMddHHmm"));
         public static DateTime ParaDataHora(this long dataHora) => DateTime.ParseExact(dataHora.ToString(), "yyyyMMddHHmm", null);
 
-        public static string ToShortDateTimeString(this DateTime dataHora) => dataHora.ToString("dd/MM/yyyy HH:mm");
-        public static string ToShortTimeString(this TimeSpan hora) => hora.ToString("HH:mm");
+        public static string ToShortDateTime(this DateTime date) => date.ToString("dd/MM/yyyy HH:mm:ss", _culture);
+        public static string ToShortDateTime(this DateTime? date) => date.HasValue ? date.Value.ToShortDateTime() : string.Empty;
+        public static string ToShortDate(this DateTime date) => date.ToString("dd/MM/yyyy", _culture);
+        public static string ToShortDate(this DateTime? date) => date.HasValue ? date.Value.ToShortDate() : string.Empty;
 
         public static string SomenteNumeros(this string numero)
         {
@@ -45,6 +50,31 @@ namespace DataLawyer.Dominio
                 var value = prop.GetValue(source, null);
                 if (value != null) prop.SetValue(target, value, null);
             }
+        }
+
+        public static string FullMessage(this Exception ex)
+        {
+            var details = new StringBuilder(ex.Message);
+
+            var inner = ex.InnerException;
+            var innerMessage = inner?.Message;
+            while (true)
+            {
+                inner = inner?.InnerException;
+                if (inner is null) break;
+                innerMessage = inner.Message;
+            }
+            if (!string.IsNullOrEmpty(innerMessage)) details.Append($" - {innerMessage}");
+
+            return details.ToString();
+        }
+
+        public static string FullMessageWithStack(this Exception ex)
+        {
+            var details = new StringBuilder(ex.FullMessage());
+            if (!string.IsNullOrEmpty(ex.StackTrace)) details.Append($" => {ex.StackTrace}");
+
+            return details.ToString();
         }
     }
 }

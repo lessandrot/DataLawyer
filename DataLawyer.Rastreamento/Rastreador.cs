@@ -10,7 +10,7 @@ namespace DataLawyer.Rastreamento
 {
     public abstract class Rastreador
     {
-        private HtmlWeb _htmlWeb = new HtmlWeb();
+        private HtmlWeb _htmlWeb = new();
 
         public Rastreador(GrauDeProcesso grau) => Grau = grau;
 

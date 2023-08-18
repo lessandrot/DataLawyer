@@ -26,7 +26,7 @@ namespace DataLawyer.Dominio.Modelo
             get => _mensagem;
             set
             {
-                if (string.IsNullOrWhiteSpace(value)) throw new Exception("A mensagem de LOG deve ser informada.");
+                if (string.IsNullOrWhiteSpace(value)) throw new ApplicationException("A mensagem de LOG deve ser informada.");
                 _mensagem = value.Trim();
             }
         }

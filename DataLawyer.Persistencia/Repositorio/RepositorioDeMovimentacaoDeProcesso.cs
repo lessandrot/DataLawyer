@@ -11,8 +11,7 @@ namespace DataLawyer.Persistencia.Repositorio
     public class RepositorioDeMovimentacaoDeProcesso
     {
         private static RepositorioDeMovimentacaoDeProcesso _instancia = null;
-        public static RepositorioDeMovimentacaoDeProcesso Instancia => _instancia ?? new RepositorioDeMovimentacaoDeProcesso();
-        private RepositorioDeMovimentacaoDeProcesso() { }
+        public static RepositorioDeMovimentacaoDeProcesso Instancia => _instancia ?? new RepositorioDeMovimentacaoDeProcesso();        
 
         public IEnumerable<MovimentacaoDeProcesso> Obtenha(int processoId)
         {
@@ -28,13 +27,13 @@ namespace DataLawyer.Persistencia.Repositorio
 
         public void Grave(MovimentacaoDeProcesso movimentacao)
         {
-            if (movimentacao is null) throw new Exception("Movimentação não informada.");
+            if (movimentacao is null) throw new ApplicationException("Movimentação não informada.");
             movimentacao.EhValido();
 
             using var contexto = new Contexto();
 
             movimentacao.Processo = contexto.Processo.Find(movimentacao.Processo.Id);
-            if (movimentacao.Processo is null) throw new Exception("Processo inexistente.");
+            if (movimentacao.Processo is null) throw new ApplicationException("Processo inexistente.");
 
             var movimentacaoExistente = contexto.MovimentacaoDeProcesso.Find(movimentacao.Id);
             if (movimentacaoExistente is null)
@@ -55,7 +54,7 @@ namespace DataLawyer.Persistencia.Repositorio
         {
             using var contexto = new Contexto();
             var movimentacao = contexto.MovimentacaoDeProcesso.Find(id);
-            if (movimentacao is null) throw new Exception("Movimentação inexistente.");
+            if (movimentacao is null) throw new ApplicationException("Movimentação inexistente.");
 
             contexto.MovimentacaoDeProcesso.Remove(movimentacao);
             contexto.SaveChanges();

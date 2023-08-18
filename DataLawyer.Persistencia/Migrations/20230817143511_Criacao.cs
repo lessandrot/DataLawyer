@@ -1,13 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
 namespace DataLawyer.Persistencia.Migrations
-{
-    /// <inheritdoc />
+{    
     public partial class Criacao : Migration
-    {
-        /// <inheritdoc />
+    {        
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -69,8 +65,7 @@ namespace DataLawyer.Persistencia.Migrations
                 table: "MovimentacaoDeProcesso",
                 column: "ProcessoId");
         }
-
-        /// <inheritdoc />
+        
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

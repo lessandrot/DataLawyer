@@ -9,8 +9,7 @@ namespace DataLawyer.Persistencia.Repositorio
     public class RepositorioDeLog
     {
         private static RepositorioDeLog _instancia = null;
-        public static RepositorioDeLog Instancia => _instancia ?? new RepositorioDeLog();
-        private RepositorioDeLog() { }
+        public static RepositorioDeLog Instancia => _instancia ?? new RepositorioDeLog();        
 
         public void Registre(LogDeErro log)
         {

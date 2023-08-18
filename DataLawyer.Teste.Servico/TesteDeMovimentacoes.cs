@@ -95,7 +95,7 @@ namespace DataLawyer.Teste.Servico
         {
             var processo = ServicoDeProcesso.Instancia.Obtenha().FirstOrDefault();
 
-            var e = Assert.Throws<Exception>(() => ServicoDeProcesso.Instancia.Exclua(processo.Id));
+            var e = Assert.Throws<ApplicationException>(() => ServicoDeProcesso.Instancia.Exclua(processo.Id));
             Assert.That(e.Message, Is.EqualTo("Não é permitido excluir processo com movimentação."));            
 
             var movimentacoes = ServicoDeMovimentacaoDeProcesso.Instancia.Obtenha(processo.Id);
