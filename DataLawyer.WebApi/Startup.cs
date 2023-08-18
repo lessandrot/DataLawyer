@@ -36,15 +36,15 @@ internal class Startup
         {
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI();            
         }
 
         app.UseRouting();
-        app.UseAuthorization();
+        app.UseAuthorization();        
 
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
-        });
+        });        
     }
 }

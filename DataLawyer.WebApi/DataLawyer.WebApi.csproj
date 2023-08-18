@@ -16,10 +16,4 @@
     <ProjectReference Include="..\DataLawyer.Servico\DataLawyer.Servico.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="base.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

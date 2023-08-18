@@ -23,14 +23,14 @@ Desafio para a implementação de um web crawler
 
 ### Testes das APIs
 - Compile e execute o projeto DataLawyer.Api
-- Para testar pode usar ferramentas como Postman ou Swagger.
+- Pode usar ferramentas como Postman ou Swagger.
 
     ### API de Rastreamento    
     - Consulta Processo do 2º Grau do Tribunal de Justiça da Bahia
         - GET: api/rastreamentos/tjba/segundograu/{numeroDoProcesso}
 
     - Consulta Movimentações de Processo do 2º Grau do Tribunal de Justiça da Bahia
-        - GET: api/rastreamentos/tjba/segundograu/movimentacoes/{numeroDoProcesso}
+        - GET: api/rastreamentos/tjba/segundograu/movimentos/{numeroDoProcesso}
 
     - Consulta e Atualiza Processo (com suas movimentações) do 2º Grau do Tribunal de Justiça da Bahia
         - POST: api/rastreamentos/tjba/segundograu/{numeroDoProcesso}
